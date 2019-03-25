@@ -20,12 +20,16 @@ class MaFenetre : public QMainWindow
 public slots :
     void setQuitter();
     void setCouleur();
+    void setPrediction();
+    QString prediction(std::string str);
+    double calculFreq(std::string str);
+    double calculConf(std::string str, std::string targ, std::string arg);
 
 public :
     MaFenetre(QWidget *parent = 0);
 private :
     QLabel *m_lab, *m_tra, *m_labe, *m_label;
-    QPushButton *m_bou;
+    QPushButton *m_bou, *m_bouPred;
     QComboBox *m_com, *m_comb, *m_combo;
     QString couleur;
     CVString m_vet;

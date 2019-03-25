@@ -6,6 +6,10 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     setFixedSize(800,600);
     m_bou = new QPushButton("Quitter", this);
     m_bou->setGeometry(600,400,80,40);
+
+    m_bouPred = new QPushButton("Prédire", this);
+    m_bouPred->setGeometry(100,400,80,40);
+
     m_lab = new QLabel("Fièvre", this);
     m_lab->setFont(QFont("Arial", 12, QFont::Bold, true));
     m_lab->move(200, 125);
@@ -55,6 +59,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_tra->move(320, 300);
 
     connect(m_bou, SIGNAL(clicked()), this, SLOT(setQuitter()));
+    connect(m_bouPred, SIGNAL(clicked()), this, SLOT(setPrediction()));
     connect(m_com, SIGNAL(currentIndexChanged(const QString &)),
             this, SLOT(setCouleur()));
     connect(m_comb, SIGNAL(currentIndexChanged(const QString &)),
@@ -73,4 +78,34 @@ void MaFenetre::setCouleur()
 {
     couleur = m_com->currentText();
     m_tra->setText(">> " + couleur + " <<");
+}
+
+void MaFenetre::setPrediction()
+{
+    m_tra->setNum(calculFreq("Appendicite"));
+}
+
+QString MaFenetre::prediction(std::string str) {
+    return "oui";
+}
+
+double MaFenetre::calculFreq(std::string str) {
+    read_csv (m_mat, m_vet, "data.csv");
+    double maladie = 0;
+    for(unsigned i = 0; i < m_vet.size(); i++) {
+        std::string mal = m_mat[0][i];
+        if(mal == str) {
+            maladie = maladie + 1;
+        }
+    }
+
+    return maladie/m_vet.size();
+}
+
+double MaFenetre::calculConf(std::string str, std::string targ, std::string arg) {
+    read_csv (m_mat, m_vet, "data.csv");
+    for (unsigned i = 0; i < m_vet.size(); i++) {
+
+    }
+    return 5;
 }
