@@ -23,7 +23,7 @@ public slots :
     void setPrediction();
     QString prediction(std::string str);
     double calculFreq(std::string str);
-    double calculConf(std::string str, std::string targ, std::string arg);
+    double calculConf(std::string str, std::string targ);
 
 public :
     MaFenetre(QWidget *parent = 0);

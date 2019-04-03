@@ -1,6 +1,15 @@
 #include "MaFenetre.h"
 #include "charger_csv.h"
 
+bool checkTab(QString tab[], QString val) {
+    for (int i = 0; i < tab->size(); i++) {
+        if(tab[i] == val) {
+            return true;
+        }
+    }
+    return false;
+}
+
 MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
 {
     setFixedSize(800,600);
@@ -22,10 +31,15 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_com = new QComboBox(this);
     m_com->setGeometry(200,150,100,30);
 
+    QString q = "";
+    QString tab[20] = {q};
     for(unsigned i = 0; i < m_mat.size(); i++) {
         string s = m_mat[i][0];
         QString qs = QString::fromUtf8(s.c_str());
-        m_com->addItem(qs);
+        if(! (checkTab(tab,qs))) {
+            tab[i] = qs;
+            m_comb->addItem(qs);
+        }
     }
 
     m_labe = new QLabel("Douleur", this);
@@ -35,10 +49,14 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_comb = new QComboBox(this);
     m_comb->setGeometry(300,150,100,30);
 
+    QString tabl[20] = {q};
     for(unsigned i = 0; i < m_mat.size(); i++) {
         string s = m_mat[i][1];
         QString qs = QString::fromUtf8(s.c_str());
-        m_comb->addItem(qs);
+        if(! (checkTab(tabl,qs))) {
+            tabl[i] = qs;
+            m_comb->addItem(qs);
+        }
     }
 
     m_label = new QLabel("Toux", this);
@@ -48,10 +66,14 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_combo = new QComboBox(this);
     m_combo->setGeometry(400,150,100,30);
 
+    QString table[20] = {q};
     for(unsigned i = 0; i < m_mat.size(); i++) {
         string s = m_mat[i][2];
         QString qs = QString::fromUtf8(s.c_str());
-        m_combo->addItem(qs);
+        if(! (checkTab(table,qs))) {
+            table[i] = qs;
+            m_comb->addItem(qs);
+        }
     }
 
     m_tra = new QLabel(this);
@@ -86,13 +108,14 @@ void MaFenetre::setPrediction()
 }
 
 QString MaFenetre::prediction(std::string str) {
+
     return "oui";
 }
 
 double MaFenetre::calculFreq(std::string str) {
     read_csv (m_mat, m_vet, "data.csv");
     double maladie = 0;
-    for(unsigned i = 0; i < m_vet.size(); i++) {
+    for(unsigned i = 0; i < m_mat.size(); i++) {
         std::string mal = m_mat[0][i];
         if(mal == str) {
             maladie = maladie + 1;
@@ -102,10 +125,17 @@ double MaFenetre::calculFreq(std::string str) {
     return maladie/m_vet.size();
 }
 
-double MaFenetre::calculConf(std::string str, std::string targ, std::string arg) {
+double MaFenetre::calculConf(std::string str, std::string targ) {
     read_csv (m_mat, m_vet, "data.csv");
-    for (unsigned i = 0; i < m_vet.size(); i++) {
-
+    double compteur = 0;
+    double nbStr = 0;
+    for (unsigned i = 0; i < m_mat.size(); i++) {
+        if(m_mat[i][0] == str) {
+            nbStr = nbStr + 1;
+            if(m_mat[i][1] == targ) {
+                compteur = compteur + 1;
+            }
+        }
     }
-    return 5;
+    return compteur/nbStr;
 }
