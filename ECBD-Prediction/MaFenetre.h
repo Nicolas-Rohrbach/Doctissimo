@@ -22,8 +22,9 @@ public slots :
     void setCouleur();
     void setPrediction();
     QString prediction(std::string str);
+    double calculScore(std::string maladie, std::string sym1, std::string sym2, std::string sym3);
     double calculFreq(std::string str);
-    double calculConf(std::string str, std::string targ);
+    double calculConf(std::string str, std::string targ, unsigned col);
 
 public :
     MaFenetre(QWidget *parent = 0);
