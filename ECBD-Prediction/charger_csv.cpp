@@ -72,5 +72,3 @@ void read_csv (CMatString &mat, CVString &vet, const string &fileName)
 
     file.close();
 }
-
-//QString qs = QString::fromUtf8(s.ctr())
