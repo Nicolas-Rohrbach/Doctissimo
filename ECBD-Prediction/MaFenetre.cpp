@@ -103,7 +103,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_tabN = new QTableWidget(this);
     m_tabN->setRowCount(0);
     m_tabN->setColumnCount(m_vet.size());
-    m_tabN->setGeometry(0,550,450,300);
+    m_tabN->setGeometry(0,550,550,300);
 
     // Initialisation des headers des colonnes
     string sympt = "Fièvre";
@@ -135,7 +135,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     // Permet de donner le nom du patient lors de la prédiction
     QLabel *m_labId = new QLabel(this);
     m_labId->setFont(QFont("Arial", 10, QFont::Bold, true));
-    m_labId->move(100,400);
+    m_labId->move(50,400);
     m_labId->setText("Nom du patient");
     m_labId->adjustSize();
 
@@ -271,7 +271,6 @@ void MaFenetre::addInForm(QString str) {
 // Prédit la maladie du patient
 void MaFenetre::setPrediction()
 {
-    read_csv (m_mat, m_vet, "data.csv");
     CVString tab;
     std::string s;
     for (unsigned i = 0; i < m_mat.size(); i++) {
@@ -290,10 +289,10 @@ void MaFenetre::setPrediction()
     std::string sym2 = bout2.toStdString();
     std::string sym3 = bout3.toStdString();
     for(unsigned i = 0; i < tab.size(); i++) {
-        double scorm_ligne2 = calculScore(tab[i],sym1,sym2,sym3);
-        if(score < scorm_ligne2) {
+        double score2 = calculScore(tab[i],sym1,sym2,sym3);
+        if(score < score2) {
             maladie = tab[i];
-            score = scorm_ligne2;
+            score = score2;
         }
     }
     if(score == 0) {
@@ -318,7 +317,6 @@ double MaFenetre::calculScore(std::string maladie, std::string sym1, std::string
 
 // Calcul la fréquence d'une maladie
 double MaFenetre::calculFreq(std::string str) {
-    read_csv (m_mat, m_vet, "data.csv");
     double maladie = 0;
     for(unsigned i = 0; i < m_mat.size(); i++) {
         std::string mal = m_mat[i][3];
@@ -332,7 +330,6 @@ double MaFenetre::calculFreq(std::string str) {
 
 // Calcul la confiance d'un symptome par rapport à une maladie
 double MaFenetre::calculConf(std::string str, std::string targ, unsigned col) {
-    read_csv (m_mat, m_vet, "data.csv");
     double compteur = 0;
     double nbStr = 0;
     for (unsigned i = 0; i < m_mat.size(); i++) {
