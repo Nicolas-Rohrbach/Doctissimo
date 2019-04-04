@@ -40,6 +40,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
     m_lab->move(200, 125);
     m_com = new QComboBox(this);
     m_com->setGeometry(200,150,100,30);
+    m_com->addItem("NULL");
     //Ajoute et empeche les doublons
     CVString tab;
     for (unsigned i = 0; i < m_mat.size(); i++) {
@@ -58,6 +59,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
 
     m_comb = new QComboBox(this);
     m_comb->setGeometry(300,150,100,30);
+    m_comb->addItem("NULL");
     //Ajoute et empeche les doublons
     CVString tabl;
     for (unsigned i = 0; i < m_mat.size(); i++) {
@@ -76,6 +78,7 @@ MaFenetre::MaFenetre(QWidget *parent) : QMainWindow(parent)
 
     m_combo = new QComboBox(this);
     m_combo->setGeometry(400,150,100,30);
+    m_combo->addItem("NULL");
     //Ajoute et empeche les doublons
     CVString table;
     for (unsigned i = 0; i < m_mat.size(); i++) {
@@ -330,6 +333,9 @@ double MaFenetre::calculFreq(std::string str) {
 
 // Calcul la confiance d'un symptome par rapport à une maladie
 double MaFenetre::calculConf(std::string str, std::string targ, unsigned col) {
+    if(str == "NULL") {
+        return 1;
+    }
     double compteur = 0;
     double nbStr = 0;
     for (unsigned i = 0; i < m_mat.size(); i++) {
